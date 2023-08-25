@@ -1,0 +1,71 @@
+QUESTION: Create the subsequent function responsible for testing the previously implemented regular expression implementation for the variety of sample inputs and edge cases: too short input, too long input, matching input length, missing uppercase, lowercase, special character, digit, excess whitespace characters in various positions.  
+Provide information on how to call the test function. 
+
+ANSWER: 
+Certainly! I'll provide a function to test the regular expression against a set of inputs, including the edge cases you mentioned.
+
+Here's the function:
+
+```javascript
+const regexBuilder = (length) => {
+    return new RegExp(
+        `^(?=(?:\\S*?[A-Z]){1})(?=(?:\\S*?[a-z]){1})(?=(?:\\S*?\\d){1})(?=(?:\\S*?[!"#$%&'()*+,-./:;<=>?@\\[\\\\\\]^_\\{|}~]){1})\\S{0,${length}}$`
+    );
+};
+
+const testRegex = (maxLength) => {
+    const testCases = [
+        { input: "A", description: "Too short input", expected: false },
+        { input: "Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!", description: "Too long input", expected: false },
+        { input: "Aa1!Aa1!Aa1", description: "Matching input length", expected: true },
+        { input: "aa1!", description: "Missing uppercase", expected: false },
+        { input: "AA1!", description: "Missing lowercase", expected: false },
+        { input: "AaA!", description: "Missing digit", expected: false },
+        { input: "Aa1a", description: "Missing special character", expected: false },
+        { input: " Aa1!", description: "Leading whitespace", expected: false },
+        { input: "Aa1! ", description: "Trailing whitespace", expected: false },
+        { input: "Aa 1!", description: "Whitespace in the middle", expected: false },
+    ];
+
+    testCases.forEach((testCase) => {
+        const result = regexBuilder(maxLength).test(testCase.input);
+        console.log(`Testing '${testCase.description}':`);
+        console.log(`Expected: ${testCase.expected}, Got: ${result}`);
+        console.assert(result === testCase.expected, `Failed on '${testCase.description}'`);
+    });
+};
+
+```
+
+### How to Call the Test Function:
+
+To run the tests, call the function `testRegex` and pass in your desired `maxLength`. For example, if you want to test against a maxLength of 12:
+
+```javascript
+testRegex(12);
+```
+
+When you call this function, it will execute the tests and log the results to the console. If any of the tests fail, an assertion error will be thrown, indicating which test case did not produce the expected result.
+
+
+_________________________________________________________________________________
+QUESTION: string Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1! should give true or false?
+
+ANSWER: Let's evaluate the string:
+
+`Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!Aa1!`
+
+Based on the requirements:
+
+1. At least one uppercase letter: **Yes**
+2. At least one lowercase letter: **Yes**
+3. At least one digit: **Yes**
+4. At least one special character from the predefined list: **Yes** (`!` is present)
+5. Does not contain any whitespace characters: **Yes**
+6. Must be within the specified `maxLength`: This depends on what `maxLength` is set to.
+
+If `maxLength` is set to, let's say, 28 (the length of the given string), then the result would be **true**. If `maxLength` is set to a value less than 28, then the result would be **false**.
+
+So, the answer depends on the value of `maxLength`:
+- `maxLength >= 28`: **true**
+- `maxLength < 28`: **false**

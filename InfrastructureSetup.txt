@@ -1,0 +1,18 @@
+Question: which git command connects git local repo with github origin?
+Answer: 
+To connect a local Git repository to a remote repository on GitHub (or any other Git hosting service), you use the git remote add command. Specifically, to add a remote named origin (which is the conventional name for the primary repository):
+git remote add origin <URL_TO_GITHUB_REPO>
+Here, <URL_TO_GITHUB_REPO> is the URL of your GitHub repository. This URL can be either an HTTPS URL or an SSH URL, depending on your preference and setup.
+
+For example, with HTTPS:
+git remote add origin https://github.com/username/repo-name.git
+Or with SSH:
+
+git remote add origin git@github.com:username/repo-name.git
+After setting up the remote, you can push your local commits to GitHub with:
+git push -u origin master
+Replace master with the name of your branch if you are not on the master branch. The -u flag sets up the tracking relationship between your local branch and the remote branch, so in future pushes, you can just use git push.
+
+
+
+
